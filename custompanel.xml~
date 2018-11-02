@@ -23,8 +23,8 @@
                     <led>
                         <halpin>"spindle-at-speed-led"</halpin> 
                         <size>30</size> 
-                        <on_color>"green"</on_color>
-                        <off_color>"red"</off_color>
+                        <on_color>"red"</on_color>
+                        <off_color>"green"</off_color>
                     </led>
 		<checkbutton>
 			<halpin>"engrana"</halpin>
