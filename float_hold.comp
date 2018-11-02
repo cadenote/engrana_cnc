@@ -1,0 +1,12 @@
+component float_hold;
+pin out float out;
+pin in float in;
+pin in bit hold;
+function _;
+license "GPL";
+;;
+#include <rtapi_math.h>
+FUNCTION(_) { 
+             if hold out = in;
+		}	 
+ 
