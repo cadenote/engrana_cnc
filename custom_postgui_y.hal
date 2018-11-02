@@ -109,8 +109,8 @@ net conex1 makoffset.0.engra <= pyvcp.engrana
 
 #Le alimentamos con los datos diferenciales
 #Sintonizo a con z
-net apos-cmd makoffset.0.conductora
-net zpos-cmd makoffset.0.conducida
+net apos-cmd makoffset.0.conducida
+net ypos-cmd makoffset.0.conductora
 net actu-offset makoffset.0.noffset => offset.3.offset
 addf makoffset.0 servo-thread
 
@@ -131,7 +131,7 @@ net conex3 tristate-float.0.out => joint.3.motor-pos-fb
 addf not.0 servo-thread
 addf tristate-float.0 servo-thread
 net apos-cmd => mux2.0.in0
-net zpos-cmd => mux2.0.in1
+net ypos-cmd => mux2.0.in1
 net conex1 => mux2.0.sel
 net conex4 mux2.0.out => offset.3.in
 addf mux2.0 servo-thread

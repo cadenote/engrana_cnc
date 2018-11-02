@@ -12,8 +12,4 @@ y
 por 
 > net [x o y]pos-cmd => mux2.0.in1
 
-El engrane funciona tanto si esta en cualquiera de los modos, por lo que si se ejecuta un programa, la junta a sigue a la junta conductora.
-
-Falta por hacer:
-Desactivar la junta a al estar engranada porque si estando engranada se actua sobre a salta un joint error
 
