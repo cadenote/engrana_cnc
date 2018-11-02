@@ -7,7 +7,7 @@ Si se quiere engranar la junta a con otra distinta [x o y] a z basta cambiar las
 
 net zpos-cmd makoffset.0.conductora por net [x/y]pos-cmd makoffset.0.conductora </br>
 y </br>
-net zpos-cmd => mux2.0.in1 por net [x/y]pos-cmd => mux2.0.in1"""
+net zpos-cmd => mux2.0.in1 por net [x/y]pos-cmd => mux2.0.in1
 
 El engrane funciona en cualquiera de los modos, por lo que si se ejecuta un programa, la junta conducida "a" sigue a la junta conductora.
 
