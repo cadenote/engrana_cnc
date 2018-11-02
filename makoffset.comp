@@ -1,0 +1,22 @@
+component makoffset;
+pin out float noffset=0;
+pin in bit engra;
+pin in float posa;
+pin in float posz;
+variable float antoffst=0;
+variable bool cambio = 0;
+function _;
+license "GPL";
+;;
+#include <rtapi_math.h>
+FUNCTION(_) {  int n=1;
+		if (engra != cambio)
+			{
+			if engra n=-1;  
+ 			noffset = antoffst + n * ( posz - posa );
+			antoffst = noffset;
+			cambio = engra;
+			}
+		else noffset = antoffst;
+	    }
+ 
