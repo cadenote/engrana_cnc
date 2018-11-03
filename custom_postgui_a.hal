@@ -1,0 +1,102 @@
+# Include your customized HAL commands here
+# The commands in this file are run after the AXIS GUI (including PyVCP panel) starts
+
+# **** Setup of spindle speed display using pyvcp -START ****
+# **** Use ACTUAL spindle velocity from spindle encoder
+# **** spindle-velocity bounces around so we filter it with lowpass
+# **** spindle-velocity is signed so we use absolute component to remove sign
+# **** ACTUAL velocity is in RPS not RPM so we scale it.
+
+setp scale.0.gain 60
+setp lowpass.0.gain 0.010000
+# a spindle-velocity le llega desde encoder.0.velocity
+net spindle-velocity => lowpass.0.in
+net spindle-fb-filtered-rps      lowpass.0.out  => abs.0.in
+net spindle-fb-filtered-abs-rps  abs.0.out      => scale.0.in
+net spindle-fb-filtered-abs-rpm  scale.0.out  => pyvcp.spindle-speed 
+# vamos a ver si la velocidad esta estabilizada
+
+loadrt ddt_bit count=1
+net spindle-fb-filtered-abs-rpm => ddt-bit.0.in-float
+# **** set up spindle at speed indicator ****
+net avelo <= ddt-bit.0.out-bit
+net avelo => pyvcp.spindle-at-speed-led
+addf ddt-bit.0 servo-thread
+
+# **** force spindle at speed indicator true because we chose no feedback ****
+#sets spindle-at-speed false
+#net spindle-at-speed => pyvcp.spindle-at-speed-led <= ddt.0.out
+
+#Aqui lo nuevo para usar el joypad
+
+loadrt or2 count=2
+loadrt mux4 count=1
+
+addf or2.0 servo-thread
+addf or2.1 servo-thread
+addf mux4.0 servo-thread
+
+
+# set the jog speed for the joypad again use numbers that make sense for your machine
+
+setp mux4.0.in0 0 # this one must be 0 to prevent motion unless a button is pressed
+setp mux4.0.in1 25
+setp mux4.0.in2 100
+setp mux4.0.in3 250
+
+
+ # To reverse the direction of an axis add the following, for continuous mode only
+ setp input.0.abs-y-scale -127.5
+ setp input.0.abs-rz-scale -127.5
+
+# the following does the magic of setting the jog speeds
+net remote-speed-slow or2.0.in0 input.0.btn-top2
+net remote-speed-medium or2.1.in0 input.0.btn-base
+net remote-speed-fast or2.0.in1 or2.1.in1 input.0.btn-pinkie
+
+net joy-speed-1 mux4.0.sel0 <= or2.0.out
+net joy-speed-2 mux4.0.sel1 <= or2.1.out
+net joy-speed-final halui.joint.jog-speed <= mux4.0.out
+
+# Activamos la maquina antes de enlazar
+setp halui.machine.on true
+# Además hay que encender la maquina poniendo el parport-pin-10 a 5v
+
+# Para actuar sobre eje z hay que activar "analog" y movet joy derecho up-down
+net joy-x-jog halui.joint.0.analog <= input.0.abs-x-position 
+net joy-y-jog halui.joint.1.analog <= input.0.abs-y-position 
+net joy-z-jog halui.joint.2.analog <= input.0.abs-rz-position 
+#Esto deja de funcionar cuando todos los ejes estan homed
+#Si queremos que siga funcionando tenemos que forzar setp halui.mode.joint a true
+
+loadrt mux2 count=1
+delsig apos-cmd
+net apos-cmd joint.3.motor-pos-cmd 
+net apos-cmd => mux2.0.in0
+net girando encoder.0.position-interpolated => mux2.0.in1
+net conex1 => mux2.0.sel <= pyvcp.engrana
+net conex4 mux2.0.out => stepgen.3.position-cmd
+addf mux2.0 servo-thread
+
+loadrt not count=1
+net conex1 => not.0.in 
+
+loadrt tristate_float count=1
+net conex2 not.0.out => tristate-float.0.enable
+delsig apos-fb
+net apos-fb stepgen.3.position-fb
+#net apos-fb  => tristate-float.0.in
+#En lugar de eso le intercalo un float_hold
+loadrt float_hold count=1
+net apos-fb => float-hold.0.in
+net conex5 float-hold.0.out => tristate-float.0.in
+net conex2 float-hold.0.hold
+addf float-hold.0 servo-thread
+net conex3 tristate-float.0.out => joint.3.motor-pos-fb
+addf not.0 servo-thread
+addf tristate-float.0 servo-thread
+
+
+
+
+
