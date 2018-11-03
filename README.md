@@ -11,6 +11,9 @@ net zpos-cmd => mux2.0.in1 por net [x/y]pos-cmd => mux2.0.in1
 
 El engrane funciona en cualquiera de los modos, por lo que si se ejecuta un programa, la junta conducida "a" sigue a la junta conductora.
 
+En la segunda etapa he engranado la pinola con la junta "a" </br>
+Para ello hay que copiar el archivo custom_postgui_a.hal como custom_postgui.hal en el correspondiente directorio de configuracion.
+
 Falta por hacer:
 Desactivar la junta a al estar engranada porque si estando engranada se actua sobre a salta un joint error
 

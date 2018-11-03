@@ -75,8 +75,12 @@ net apos-cmd joint.3.motor-pos-cmd
 net apos-cmd => mux2.0.in0
 net girando encoder.0.position-interpolated => mux2.0.in1
 net conex1 => mux2.0.sel <= pyvcp.engrana
-net conex4 mux2.0.out => stepgen.3.position-cmd
+loadrt offset count=1
+net conex4 mux2.0.out => offset.0.in 
+
 addf mux2.0 servo-thread
+
+#stepgen.3.position-cmd
 
 loadrt not count=1
 net conex1 => not.0.in 
@@ -84,19 +88,30 @@ net conex1 => not.0.in
 loadrt tristate_float count=1
 net conex2 not.0.out => tristate-float.0.enable
 delsig apos-fb
-net apos-fb stepgen.3.position-fb
-#net apos-fb  => tristate-float.0.in
-#En lugar de eso le intercalo un float_hold
 loadrt float_hold count=1
+net apos-fb  offset.0.fb-out
+#stepgen.3.position-fb
 net apos-fb => float-hold.0.in
-net conex5 float-hold.0.out => tristate-float.0.in
-net conex2 float-hold.0.hold
 addf float-hold.0 servo-thread
+
+net conex5 float-hold.0.out => tristate-float.0.in
+net conex2 => float-hold.0.hold
 net conex3 tristate-float.0.out => joint.3.motor-pos-fb
+loadrt makoffset count=1
+#Le conectamos el pin de engranar
+net conex1 makoffset.0.engra 
+net apos-cmd makoffset.0.conducida
+net girando makoffset.0.conductora
+net actu-offset makoffset.0.noffset => offset.0.offset
+
+net conectaa-cmd  offset.0.out => stepgen.3.position-cmd
+net conectaa-fb stepgen.3.position-fb => offset.0.fb-in
+
+addf makoffset.0 servo-thread
 addf not.0 servo-thread
 addf tristate-float.0 servo-thread
-
-
+addf offset.0.update-output servo-thread
+addf offset.0.update-feedback servo-thread
 
 
 
