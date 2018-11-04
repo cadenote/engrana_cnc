@@ -1,0 +1,20 @@
+59c59
+< net joy-speed-final halui.joint.jog-speed <= mux4.0.out
+---
+> net joy-speed-final halui.jog-speed <= mux4.0.out
+66,68c66,68
+< net joy-x-jog halui.joint.0.analog <= input.0.abs-x-position 
+< net joy-y-jog halui.joint.1.analog <= input.0.abs-y-position 
+< net joy-z-jog halui.joint.2.analog <= input.0.abs-rz-position 
+---
+> net joy-x-jog halui.jog.0.analog <= input.0.abs-x-position 
+> net joy-y-jog halui.jog.1.analog <= input.0.abs-y-position 
+> net joy-z-jog halui.jog.2.analog <= input.0.abs-rz-position 
+74c74
+< net apos-cmd joint.3.motor-pos-cmd 
+---
+> net apos-cmd axis.3.motor-pos-cmd 
+99c99
+< net conex3 tristate-float.0.out => joint.3.motor-pos-fb
+---
+> net conex3 tristate-float.0.out => axis.3.motor-pos-fb
