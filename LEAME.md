@@ -27,7 +27,9 @@ Si no se tiene instalada la version de linuxcnc/AXIS 2.8.0-pre1-3928-g0cab365 es
 Una posible solucion para corregir el fichero custom_postgui.hal seria :</br> 
 cp custom_postgui_a.hal custom_postgui.hal</br>
 patch custom_postgui.hal dif_custom_n2v</br>
-
+Una manera mas general es usar el ejecutable "envejece file_in file_out"</br>
+Ejemplo:</br>
+./envejece custom_postgui_a.hal custom_postgui_a.hal</br>
 Falta por hacer:
 Desactivar la junta [a] al estar engranada porque si estando engranada se actua sobre a salta un joint error</br>
 

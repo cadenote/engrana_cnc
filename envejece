@@ -1,0 +1,11 @@
+#! /bin/bash
+awk '{gsub("halui.joint.","halui.",$0); print $0}' $1 > custom_postgui_1
+awk '{gsub(" joint."," axis.",$0); print $0}' custom_postgui_1 > custom_postgui_2
+awk '{gsub(" halui.0."," halui.jog.0.",$0); print $0}' custom_postgui_2 > custom_postgui_3
+awk '{gsub(" halui.1."," halui.jog.1.",$0); print $0}' custom_postgui_3 > custom_postgui_4
+awk '{gsub(" halui.2."," halui.jog.2.",$0); print $0}' custom_postgui_4 > $2
+for i in 1 2 3 4
+do
+	rm "custom_postgui_"$i
+done
+

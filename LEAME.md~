@@ -29,5 +29,5 @@ cp custom_postgui_a.hal custom_postgui.hal</br>
 patch custom_postgui.hal dif_custom_n2v</br>
 
 Falta por hacer:
-Desactivar la junta [a] al estar engranada porque si estando engranada se actua sobre a salta un joint error
+Desactivar la junta [a] al estar engranada porque si estando engranada se actua sobre a salta un joint error</br>
 
