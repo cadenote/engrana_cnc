@@ -31,8 +31,15 @@ Una manera mas general es usar el ejecutable "envejece file_in file_out"</br>
 Ejemplo:</br>
 ./envejece custom_postgui_a.hal custom_postgui_a.hal</br>
 Errores pendientes :</br>
-Salta joint 3 error al desengranar salvo cuando la pinola va despacio.</br> 
+Salta joint 3 error al desengranar salvo cuando la pinola va despacio.</br>
+De momento si conviene apagar la maquina antes de desengranar. Desengranar y luego encender. </br>
 
 Falta por hacer:
 Desactivar la junta [a] al estar engranada porque si estando engranada se actua sobre a salta un joint error</br>
+
+Notas:</br>
+Si se utiliza la utilidad "Spepcof Wizard" para construir una nueva configuracion, en el fichero custom_postgui.hal hay que sustituir </br>
+net spindle-velocity => lowpass.0.in por  </br>
+net spindle-velocity-feedback-rps => lowpass.0.in</br>
+
 
